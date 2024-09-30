@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Model from './components/Model';
+import ModelEngine from './components/ModelEngine';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Model />} />
+        <Route path="/" element={<ModelEngine />} />
       </Routes>
     </Router>
   );
