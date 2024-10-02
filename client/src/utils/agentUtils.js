@@ -1,8 +1,8 @@
 // File: utils/agentUtils.js
 import { Vector3 } from 'three';
 import { Spider, Ant } from '../components/AgentClasses';
-
-const NUM_SPIDERS = 0;
+import * as transform from './transform';
+const NUM_SPIDERS = 1;
 const NUM_ANTS = 0;
 
 export const createInitialAgents = () => {
@@ -10,12 +10,20 @@ export const createInitialAgents = () => {
   const ants = [];
 
   for (let i = 0; i < NUM_SPIDERS; i++) {
-    const position = new Vector3(
-      (Math.random() - 0.5) * 10,
+    
+    const rawPosition = new Vector3(
+      5,
       10,
-      (Math.random() - 0.5) * 10
+      7
     );
-    spiders.push(new Spider(i, position));
+
+    const agentPosition = transform.modelToAgentCoordinates(rawPosition);
+    const modelPosition = transform.agentToModelCoordinates(agentPosition);
+    console.log("model position:", modelPosition.toArray(), " | agent position:", agentPosition.toArray(), " | raw position:", rawPosition.toArray());
+
+    // const agentPosition = transformInstance.rawToAgent(rawPosition);
+    // console.log("agent position:", agentPosition.toArray(), " | raw position:", rawPosition.toArray());
+    spiders.push(new Spider(i, rawPosition));
   }
 
   for (let i = 0; i < NUM_ANTS; i++) {
@@ -28,4 +36,21 @@ export const createInitialAgents = () => {
   }
 
   return { spiders, ants };
+};
+
+export const moveAgent = (currentPosition) => {
+  let x = currentPosition.x;
+  let z = currentPosition.z;
+
+  z += 5;
+  if (z > 100) {
+    z = 0;
+    x += 5;
+  }
+  if (x > 100) {
+    x = 0;
+    z = 0;
+  }
+
+  return new Vector3(x, currentPosition.y, z);
 };

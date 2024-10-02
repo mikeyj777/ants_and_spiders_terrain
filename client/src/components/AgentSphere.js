@@ -15,6 +15,8 @@ const AgentSphere = ({ agent }) => {
     return unsubscribe;
   }, [api, agent]);
 
+  // console.log("agent id:", agent.id, " | position:", agent.position.toArray());
+
   return (
     <mesh ref={ref}>
       <sphereGeometry args={[0.5]} />
