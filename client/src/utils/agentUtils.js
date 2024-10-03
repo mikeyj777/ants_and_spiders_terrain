@@ -42,7 +42,7 @@ export const moveAgent = (currentPosition) => {
   let x = currentPosition.x;
   let z = currentPosition.z;
 
-  z += 0;
+  z += 5;
   if (z > 100) {
     z = 0;
     x += 5;

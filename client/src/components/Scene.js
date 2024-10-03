@@ -35,7 +35,7 @@ const AlignedBoundingBox = ({ size, height, rotation, anchorPoint }) => {
 };
 
 const Scene = () => {
-  const [agentPosition, setAgentPosition] = useState(new Vector3(0, 10, 0));
+  const [agentPosition, setAgentPosition] = useState(new Vector3(100, 10, 0));
   const [modelPosition, setModelPosition] = useState(new Vector3(0, 10, 0));
 
   useEffect(() => {

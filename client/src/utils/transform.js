@@ -2,7 +2,7 @@ import { Vector3, Matrix4 } from 'three';
 
 // Constants from your Scene setup
 const BOX_ROTATION_DEGREES = 35;
-const BOX_SIZE = 45;
+const BOX_SIZE = 35;
 const ANCHOR_POINT = new Vector3(-9, -5, -13);
 
 // Create transformation matrices
