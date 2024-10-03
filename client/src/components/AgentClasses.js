@@ -6,17 +6,33 @@ export class Agent {
     this.id = uuidv4();
     this.color = `hsl(${(id / 50) * 360}, 100%, 50%)`;
     this.position = position;
+    this.mass = 1; // Add mass for physics calculations
+    this.velocity = new Vector3(0, 0, 0);
   }
 
-  move() {
-    const direction = new Vector3(
-      Math.random() - 0.5, 
-      0,
-      Math.random() - 0.5
-    ).normalize();
-    
-    this.position.add(direction.multiplyScalar(0.1));
+  applyForce(force) {
+    // F = ma, so a = F / m
+    const acceleration = force.divideScalar(this.mass);
+    this.velocity.add(acceleration);
   }
+
+  update(deltaTime) {
+    // Update position based on velocity
+    this.position.add(this.velocity.clone().multiplyScalar(deltaTime));
+    
+    // Apply gravity
+    this.applyForce(new Vector3(0, -9.8 * this.mass, 0).multiplyScalar(deltaTime));
+  }
+
+  // move() {
+  //   const direction = new Vector3(
+  //     Math.random() - 0.5, 
+  //     0,
+  //     Math.random() - 0.5
+  //   ).normalize();
+    
+  //   this.position.add(direction.multiplyScalar(0.1));
+  // }
 }
 
 export class Spider extends Agent {

@@ -1,9 +1,8 @@
-// File: components/ForestModel.js
 import React, { useEffect, useState } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-const ForestModel = () => {
+const ForestModel = ({ onModelLoaded }) => {
   const [error, setError] = useState(null);
   
   const gltf = useLoader(
@@ -17,10 +16,11 @@ const ForestModel = () => {
   );
 
   useEffect(() => {
-    if (gltf) {
+    if (gltf && onModelLoaded) {
       console.log('GLB file loaded successfully:', gltf);
+      onModelLoaded(gltf);
     }
-  }, [gltf]);
+  }, [gltf, onModelLoaded]);
 
   if (error) {
     return (

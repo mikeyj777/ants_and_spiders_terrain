@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Vector3 } from 'three';
 import { Agent, Spider, Ant } from './AgentClasses';
 import ForestModel from './ForestModel';
-import Scene from './Scene'
+import Scene from './Scene';
 
 extend({ OrbitControls });
 
@@ -23,6 +23,7 @@ const ModelEngine = () => {
   return (
     <Canvas style={{ width: '100%', height: '400px' }}>
       <Scene />
+
     </Canvas>
   );
 };
