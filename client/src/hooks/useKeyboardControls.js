@@ -30,6 +30,9 @@ export const useKeyboardControls = () => {
       case 'KeyC':
         setKeys((keys) => ({ ...keys, c: true }));
         break;
+      case 'KeyG':
+        setKeys((keys) => ({ ...keys, g: true }));
+        break;
     }
   }, []);
 

@@ -13,6 +13,7 @@ const CameraControls = () => {
   const [isTopView, setIsTopView] = useState(false);
   const normalPosition = useRef(new THREE.Vector3(0, -20, 10));
   const topPosition = useRef(new THREE.Vector3(0, 0, 50));
+  const goodPosition = useRef(new THREE.Vector3(-15, 30, 9));
 
   useEffect(() => {
     const currentControls = controls.current;
@@ -72,6 +73,14 @@ const CameraControls = () => {
         controls.current.target.set(0, 0, 0);
         keys.c = false; // Reset the key state
       }
+
+      if (keys.g) {
+        console.log("good position:", goodPosition.current.toArray());
+        camera.position.copy(goodPosition.current);
+        controls.current.target.set(0, 0, 0);
+        keys.g = false; // Reset the key state
+      }
+
     }
   });
 

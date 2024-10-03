@@ -3,7 +3,7 @@ import { Vector3, Matrix4 } from 'three';
 // Constants from your Scene setup
 const BOX_ROTATION_DEGREES = 35;
 const BOX_SIZE = 45;
-const ANCHOR_POINT = new Vector3(-7, -5, -30);
+const ANCHOR_POINT = new Vector3(-9, -5, -13);
 
 // Create transformation matrices
 const rotationMatrix = new Matrix4().makeRotationY(BOX_ROTATION_DEGREES * Math.PI / 180);
@@ -24,7 +24,7 @@ export function agentToModelCoordinates(agentPosition) {
   // Translate to model space
   vect.add(ANCHOR_POINT);
 
-  console.log("agent position:", agentPosition.toArray(), " | model position:", vect.toArray());
+  // console.log("agent position:", agentPosition.toArray(), " | model position:", vect.toArray());
 
   return vect;
 }

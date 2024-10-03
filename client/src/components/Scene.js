@@ -34,64 +34,6 @@ const AlignedBoundingBox = ({ size, height, rotation, anchorPoint }) => {
   );
 };
 
-const CoordinateDisplay = ({ position }) => {
-  const meshRef = useRef();
-  const textureRef = useRef();
-  const { camera } = useThree();
-
-  const texture = useMemo(() => {
-    const width = 256;
-    const height = 64;
-    const size = width * height;
-    const data = new Uint8Array(4 * size);
-    const texture = new DataTexture(data, width, height, RGBAFormat);
-    textureRef.current = texture;
-    return texture;
-  }, []);
-
-  useEffect(() => {
-    if (!textureRef.current) return;
-
-    const { data } = textureRef.current.image;
-    const width = textureRef.current.image.width;
-
-    // Fill with a semi-transparent black background
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = 0;     // R
-      data[i + 1] = 0; // G
-      data[i + 2] = 0; // B
-      data[i + 3] = 128; // A (semi-transparent)
-    }
-    
-    // Simple text rendering (very basic, just for demonstration)
-    const text = `X: ${position.x.toFixed(2)}, Z: ${position.z.toFixed(2)}`;
-    const x = 10, y = 30;
-    for (let i = 0; i < text.length; i++) {
-      const ix = (x + i * 10) + (y * width);
-      data[ix * 4] = 255;     // R
-      data[ix * 4 + 1] = 255; // G
-      data[ix * 4 + 2] = 255; // B
-      data[ix * 4 + 3] = 255; // A
-    }
-    
-    textureRef.current.needsUpdate = true;
-  }, [position]);
-
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.position.copy(camera.position).add(camera.getWorldDirection(new Vector3()).multiplyScalar(-5));
-      meshRef.current.quaternion.copy(camera.quaternion);
-    }
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <planeGeometry args={[2, 0.5]} />
-      <meshBasicMaterial map={texture} transparent={true} />
-    </mesh>
-  );
-};
-
 const Scene = () => {
   const [agentPosition, setAgentPosition] = useState(new Vector3(0, 10, 0));
   const [modelPosition, setModelPosition] = useState(new Vector3(0, 10, 0));
@@ -135,7 +77,6 @@ const Scene = () => {
       />
 
       <CameraControls />
-      <CoordinateDisplay position={agentPosition} />
     </>
   );
 };

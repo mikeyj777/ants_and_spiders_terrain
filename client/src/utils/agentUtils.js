@@ -19,7 +19,7 @@ export const createInitialAgents = () => {
 
     const agentPosition = transform.modelToAgentCoordinates(rawPosition);
     const modelPosition = transform.agentToModelCoordinates(agentPosition);
-    console.log("model position:", modelPosition.toArray(), " | agent position:", agentPosition.toArray(), " | raw position:", rawPosition.toArray());
+    // console.log("model position:", modelPosition.toArray(), " | agent position:", agentPosition.toArray(), " | raw position:", rawPosition.toArray());
 
     // const agentPosition = transformInstance.rawToAgent(rawPosition);
     // console.log("agent position:", agentPosition.toArray(), " | raw position:", rawPosition.toArray());
@@ -42,7 +42,7 @@ export const moveAgent = (currentPosition) => {
   let x = currentPosition.x;
   let z = currentPosition.z;
 
-  z += 5;
+  z += 0;
   if (z > 100) {
     z = 0;
     x += 5;
