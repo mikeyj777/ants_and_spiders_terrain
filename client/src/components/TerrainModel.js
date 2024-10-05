@@ -7,10 +7,15 @@ const TerrainModel = ({ gltfData }) => {
 
   useEffect(() => {
     if (gltfData) {
+      console.log('GLTF Data received:', gltfData);
       const terrain = gltfData.scene.children.find(child => child.isMesh);
       if (terrain) {
+        console.log('Terrain mesh found:', terrain);
         const processedData = processTerrainData(terrain);
         setProcessedTerrain(processedData);
+        console.log('Processed terrain data:', processedData);
+      } else {
+        console.warn('No terrain mesh found in GLTF data');
       }
     }
   }, [gltfData]);
@@ -19,6 +24,7 @@ const TerrainModel = ({ gltfData }) => {
     const geometry = terrainMesh.geometry;
     geometry.computeBoundingBox();
     const box = geometry.boundingBox;
+    console.log('Terrain bounding box:', box);
 
     const shapes = [];
     const segments = 20;
@@ -27,6 +33,7 @@ const TerrainModel = ({ gltfData }) => {
       y: (box.max.y - box.min.y),
       z: (box.max.z - box.min.z) / segments
     };
+    console.log('Segment size:', size);
 
     for (let x = 0; x < segments; x++) {
       for (let z = 0; z < segments; z++) {
@@ -40,8 +47,14 @@ const TerrainModel = ({ gltfData }) => {
           args: [size.x, height, size.z],
           position: [posX, posY, posZ]
         });
+
+        if (x === 0 && z === 0) {
+          console.log('Sample shape:', shapes[shapes.length - 1]);
+        }
       }
     }
+
+    console.log(`Generated ${shapes.length} shapes for terrain physics`);
 
     return {
       shapes: shapes,
@@ -58,16 +71,26 @@ const TerrainModel = ({ gltfData }) => {
     const intersects = raycaster.intersectObject(new THREE.Mesh(geometry));
 
     if (intersects.length > 0) {
-      return far / 2 - intersects[0].distance;
+      const height = far / 2 - intersects[0].distance;
+      if (x === 0 && z === 0) {
+        console.log('Sample terrain height at (0,0):', height);
+      }
+      return height;
     }
     return 0;
   };
 
-  const [ref] = useCompoundBody(() => ({
-    mass: 0,
-    shapes: processedTerrain ? processedTerrain.shapes : [],
-    position: [0, 0, 0],
-  }));
+  const [ref] = useCompoundBody(() => {
+    if (processedTerrain) {
+      console.log('Creating physics body with', processedTerrain.shapes.length, 'shapes');
+      return {
+        mass: 0,
+        shapes: processedTerrain.shapes,
+        position: [0, 0, 0],
+      };
+    }
+    return {};
+  });
 
   if (!processedTerrain) {
     return null;

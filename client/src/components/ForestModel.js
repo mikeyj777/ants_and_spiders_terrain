@@ -18,6 +18,7 @@ const ForestModel = ({ onModelLoaded }) => {
   useEffect(() => {
     if (gltf && onModelLoaded) {
       console.log('GLB file loaded successfully:', gltf);
+      console.log('colliders:', gltf.colliders);
       onModelLoaded(gltf);
     }
   }, [gltf, onModelLoaded]);
